@@ -335,9 +335,9 @@ print "Winter Wheat Average Precipitation: %f" % optimal_avg_precip_wwheat
 print "Spring Wheat Average Temperature: %d" % optimal_avg_temp_swheat
 print "Spring Wheat Average Humidity: %d" % optimal_avg_hum_swheat
 print "Spring Wheat Average Precipitation: %f" % optimal_avg_precip_swheat
-print "Soyabean Average Temperature: %d" % optimal_avg_temp_soyabean
-print "Soyabean Average Humidity: %d" % optimal_avg_hum_soyabean
-print "Soyabean Average Preciptation: %f" % optimal_avg_precip_soyabean
+print "Soybean Average Temperature: %d" % optimal_avg_temp_soyabean
+print "Soybean Average Humidity: %d" % optimal_avg_hum_soyabean
+print "Soybean Average Preciptation: %f" % optimal_avg_precip_soyabean
 print "Cotton Average Temperature: %d" % optimal_avg_temp_cotton
 print "Cotton Average Humidity: %d" % optimal_avg_hum_cotton
 print "Cotton Average Precipitation: %f" % optimal_avg_precip_cotton
