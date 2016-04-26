@@ -351,7 +351,7 @@ for i in range(0,6):
 	weighted_location[i] = loc_temp[i]*temp_weights[i] + loc_hum[i]*humidity_weights[i] + loc_precip[i]*precip_weights[i] 
 
 for i in range(0,6):
-	per_change[i] = abs(weighted_ideal[i] - weighted_location[i])/weighted_ideal[i]
+	per_change[i] = (abs(weighted_ideal[i] - weighted_location[i])/weighted_ideal[i])*100
 	if (per_change[i] >0 and per_change[i] <=5):
 		score[i] = 10
 	elif (per_change[i] >5 and per_change[i] <=10):
