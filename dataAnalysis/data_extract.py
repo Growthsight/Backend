@@ -2,11 +2,29 @@
 import sys
 import forecastio
 import datetime
-
+import locale
+import json
 ''' KEY FOR THE API TO WORK'''
 api_key = "c6a99c6932310919951887873b154cbb"
-
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 ''' DECLARE VARIABLE WITH INITAIL VALUE TO 0'''
+arrayofcrops = []
+loc_temp = [0,0,0,0,0,0]
+loc_precip = [0,0,0,0,0,0]
+loc_hum = [0,0,0,0,0,0]
+score = [0,0,0,0,0,0]
+weighted_ideal = [0,0,0,0,0,0]
+weighted_location = [0,0,0,0,0,0]
+per_change = [0,0,0,0,0,0]
+temp_weights = [0.2,0.2,0.2,0.5,0.3,0.5]
+humidity_weights = [0.3,0.3,0.3,0.2,0.5,0.3]
+precip_weights = [0.5,0.5,0.5,0.3,0.2,0.2]
+arrayofcrops.append({"Crop_Name":"Winter Wheat", "GrowthSight_Score":"0", "Ideal_Humidity": "75", "Ideal_Precipitation": "0.1", "Ideal_Temperature":"46", "Location_Humidity":"70%", "Location_Precipitation":"15", "Location_Temperature":"60", "Planting_Season":"August September October" })
+arrayofcrops.append({"Crop_Name":"Spring Wheat", "GrowthSight_Score":"0", "Ideal_Humidity": "75", "Ideal_Precipitation": "0.2", "Ideal_Temperature":"65", "Location_Humidity":"70", "Location_Precipitation":"15", "Location_Temperature":"60", "Planting_Season":"April May"})
+arrayofcrops.append({"Crop_Name":"Soybean", "GrowthSight_Score":"0", "Ideal_Humidity": "75", "Ideal_Precipitation": "0.1", "Ideal_Temperature":"69", "Location_Humidity":"70", "Location_Precipitation":"15", "Location_Temperature":"60", "Planting_Season":"April May June"})
+arrayofcrops.append({"Crop_Name":"Cotton", "GrowthSight_Score":"0", "Ideal_Humidity": "20", "Ideal_Precipitation": "0.12", "Ideal_Temperature":"84", "Location_Humidity":"70", "Location_Precipitation":"15", "Location_Temperature":"60", "Planting_Season":"March April May June"})
+arrayofcrops.append({"Crop_Name":"Corn", "GrowthSight_Score":"0", "Ideal_Humidity": "70", "Ideal_Precipitation": "0.21", "Ideal_Temperature":"66", "Location_Humidity":"70", "Location_Precipitation":"15", "Location_Temperature":"60", "Planting_Season":"April May June"})
+arrayofcrops.append({"Crop_Name":"Strawberry", "GrowthSight_Score":"0", "Ideal_Humidity": "80", "Ideal_Precipitation": "0.12", "Ideal_Temperature":"69", "Location_Humidity":"70", "Location_Precipitation":"15", "Location_Temperature":"60", "Planting_Season":"January February March April May"})
 day_avg_temp = 0
 day_sum_temp = 0
 month_avg_temp = 0
@@ -21,12 +39,6 @@ year_sum_temp_swheat = 0
 year_sum_temp_wwheat = 0
 year_sum_temp_cotton = 0
 year_sum_temp_strawberry = 0
-optimal_avg_temp_soyabean = 0
-optimal_avg_temp_corn = 0
-optimal_avg_temp_swheat = 0
-optimal_avg_temp_wwheat = 0
-optimal_avg_temp_cotton = 0
-optimal_avg_temp_strawberry = 0
 optimal_sum_temp_soyabean = 0
 optimal_sum_temp_swheat = 0
 optimal_sum_temp_wwheat = 0
@@ -88,7 +100,7 @@ temp_error = 0
 hum_error = 0
 precip_error = 0
 hour_error = 0;
-
+state = sys.argv[3]
 '''LOOPING THROUGH DIFFERENT YEARS'''
 for year in range(2000,2001):	
 	'''LOOPING THROUGH DIFFERENT MONTHS'''
@@ -264,86 +276,96 @@ for year in range(2000,2001):
 	optimal_sum_hum_wwheat = optimal_sum_hum_wwheat + year_avg_hum_wwheat
 	optimal_sum_precip_wwheat = optimal_sum_precip_wwheat + year_avg_precip_wwheat
 if optimal_sum_temp_strawberry == 0:
-	optimal_avg_temp_strawberry = 0
+	loc_temp[5] = 0
 else:
-	optimal_avg_temp_strawberry = optimal_sum_temp_strawberry/1
+	loc_temp[5] = optimal_sum_temp_strawberry/1
 if optimal_sum_hum_strawberry == 0:
-	optimal_avg_hum_strawberry = 0
+	loc_hum[5] = 0
 else:
-	optimal_avg_hum_strawberry = optimal_sum_hum_strawberry/1
+	loc_hum[5] = optimal_sum_hum_strawberry/1
 if optimal_sum_precip_strawberry == 0:
-	optimal_avg_precip_strawberry = 0
+	loc_precip[5] = 0
 else:
-	optimal_avg_precip_strawberry = optimal_sum_precip_strawberry/1
+	loc_precip[5] = optimal_sum_precip_strawberry/1
 if optimal_sum_temp_cotton == 0:
-	optimal_avg_temp_cotton = 0
+	loc_temp[3] = 0
 else:
-	optimal_avg_temp_cotton = optimal_sum_temp_cotton/1
+	loc_temp[3] = optimal_sum_temp_cotton/1
 if optimal_sum_hum_cotton == 0:
-	optimal_avg_hum_cotton = 0
+	loc_hum[3] = 0
 else:
-	optimal_avg_hum_cotton = optimal_sum_hum_cotton/1
+	loc_hum[3] = optimal_sum_hum_cotton/1
 if optimal_sum_precip_cotton == 0:
-	optimal_avg_precip_cotton = 0
+	loc_precip[3] = 0
 else:
-	optimal_avg_precip_cotton = optimal_sum_precip_cotton/1
+	loc_precip[3] = optimal_sum_precip_cotton/1
 if optimal_sum_temp_soyabean == 0:
-	optimal_avg_temp_soyabean = 0
-	optimal_avg_temp_corn = 0
+	loc_temp[2]= 0
+	loc_temp[4] = 0
 else:
-	optimal_avg_temp_soyabean = optimal_sum_temp_soyabean/1
-	optimal_avg_temp_corn = optimal_sum_temp_soyabean/1
+	loc_temp[2] = optimal_sum_temp_soyabean/1
+	loc_temp[4] = optimal_sum_temp_soyabean/1
 if optimal_sum_hum_soyabean == 0:
-	optimal_avg_hum_soyabean = 0
-	optimal_avg_hum_corn = 0
+	loc_hum[2] = 0
+	loc_hum[4] = 0
 else:
-	optimal_avg_hum_soyabean = optimal_sum_hum_soyabean/1
-	optimal_avg_hum_corn = optimal_sum_hum_soyabean/1
+	loc_hum[2] = optimal_sum_hum_soyabean/1
+	loc_hum[4] = optimal_sum_hum_soyabean/1
 if optimal_sum_precip_soyabean == 0:
-	optimal_avg_precip_soyabean = 0
-	optimal_avg_precip_corn = 0
+	loc_precip[2] = 0
+	loc_precip[4] = 0
 else:
-	optimal_avg_precip_soyabean = optimal_sum_precip_soyabean/1
-	optimal_avg_precip_corn = optimal_sum_precip_soyabean/1
+	loc_precip[2] = optimal_sum_precip_soyabean/1
+	loc_precip[4] = optimal_sum_precip_soyabean/1
 if optimal_sum_temp_swheat == 0:
-	optimal_avg_temp_swheat = 0
+	loc_temp[1] = 0
 else:
-	optimal_avg_temp_swheat = optimal_sum_temp_swheat/1
+	loc_temp[1] = optimal_sum_temp_swheat/1
 if optimal_sum_hum_swheat == 0:
-	optimal_avg_hum_swheat = 0
+	loc_hum[1] = 0
 else:
-	optimal_avg_hum_swheat = optimal_sum_hum_swheat/1
+	loc_hum[1] = optimal_sum_hum_swheat/1
 if optimal_sum_precip_swheat == 0:
-	optimal_avg_precip_swheat = 0
+	loc_precip[1] = 0
 else:
-	optimal_avg_precip_swheat = optimal_sum_precip_swheat/1
+	loc_precip[1] = optimal_sum_precip_swheat/1
 if optimal_sum_temp_wwheat == 0:
-	optimal_avg_temp_wwheat = 0
+	loc_temp[0] = 0
 else:
-	optimal_avg_temp_wwheat = optimal_sum_temp_wwheat/1
+	loc_temp[0] = optimal_sum_temp_wwheat/1
 if optimal_sum_hum_wwheat == 0:
-	optimal_avg_hum_wwheat = 0
+	loc_hum[0] = 0
 else:
-	optimal_avg_hum_wwheat = optimal_sum_hum_wwheat/1
+	loc_hum[0] = optimal_sum_hum_wwheat/1
 if optimal_sum_precip_wwheat == 0:
-	optimal_avg_precip_wwheat = 0
+	loc_precip[0] = 0
 else:
-	optimal_avg_precip_wwheat = optimal_sum_precip_wwheat/1
-print "Winter Wheat Average Temperature: %d" % optimal_avg_temp_wwheat
-print "Winter Wheat Average Humidity: %d" % optimal_avg_hum_wwheat
-print "Winter Wheat Average Precipitation: %f" % optimal_avg_precip_wwheat
-print "Spring Wheat Average Temperature: %d" % optimal_avg_temp_swheat
-print "Spring Wheat Average Humidity: %d" % optimal_avg_hum_swheat
-print "Spring Wheat Average Precipitation: %f" % optimal_avg_precip_swheat
-print "Soybean Average Temperature: %d" % optimal_avg_temp_soyabean
-print "Soybean Average Humidity: %d" % optimal_avg_hum_soyabean
-print "Soybean Average Preciptation: %f" % optimal_avg_precip_soyabean
-print "Cotton Average Temperature: %d" % optimal_avg_temp_cotton
-print "Cotton Average Humidity: %d" % optimal_avg_hum_cotton
-print "Cotton Average Precipitation: %f" % optimal_avg_precip_cotton
-print "Corn Average Temperature: %d" % optimal_avg_temp_corn
-print "Corn Average Humidity: %d" % optimal_avg_hum_corn
-print "Corn Average Precipitation: %f" % optimal_avg_precip_corn
-print "Strawberry Average Temperature: %d" % optimal_avg_temp_strawberry
-print "strawberry Average Humidity: %d" % optimal_avg_hum_strawberry
-print "Strawberry Average Precipitation: %f" % optimal_avg_precip_strawberry
+	loc_precip[0] = optimal_sum_precip_wwheat/1
+
+for i in range(0,6):
+	arrayofcrops[i]["Location_Temperature"] = loc_temp[i]
+	arrayofcrops[i]["Location_Humidity"] = loc_hum[i]
+	arrayofcrops[i]["Location_Precipitation"] = loc_precip[i]
+for i in range(0,6):
+	weighted_ideal[i] = locale.atof(arrayofcrops[i].get("Ideal_Temperature"))*temp_weights[i] + locale.atof(arrayofcrops[i].get("Ideal_Humidity"))*humidity_weights[i] + locale.atof(arrayofcrops[i].get("Ideal_Precipitation"))*precip_weights[i] 
+	weighted_location[i] = loc_temp[i]*temp_weights[i] + loc_hum[i]*humidity_weights[i] + loc_precip[i]*precip_weights[i] 
+
+for i in range(0,6):
+	per_change[i] = abs(weighted_ideal[i] - weighted_location[i])/weighted_ideal[i]
+	if (per_change[i] >0 and per_change[i] <=5):
+		score[i] = 10
+	elif (per_change[i] >5 and per_change[i] <=10):
+		score[i] = 8
+	elif (per_change[i] >10 and per_change[i] <=15):
+		score[i] = 6
+	elif (per_change[i] >15 and per_change[i] <=20):
+		score[i] = 4
+	elif (per_change[i] >20 and per_change[i] <=25):
+		score[i] = 2
+	else:
+		score[i] = 0
+			
+for i in range(0,6):
+	arrayofcrops[i]["GrowthSight_Score"] = score[i]
+x = json.dumps(arrayofcrops)
+print x
