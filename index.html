@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<style>
+
+
+
+
+
+</style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JsPDF</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="js/jspdf.js"></script>
+    <script src="js/jquery-2.1.3.js"></script>
+    <script src="js/pdfFromHTML.js"></script>
+
+
+</head>
+<body>
+<h1>your report</h1>
+    <div id="pdf2htmldiv" style="background-image:url(logo.jpg)">
+    <center>
+
+
+
+        <h2 style="text-align: center; font-size: 50px;">Growthsight report</h2>
+        <p style="text-align: center;">welcome to the easy way to evaluate your farmland</p>
+
+
+        <p style="text-align: center;" id="date"></p>
+        <p style="text-align: center;" id="location"></p>
+        <h1 style="text-align: center; align-items: center;" >
+            <img src="logo.png" style="text-align: center;"/>
+        </h1>
+
+        <!-- ADD_PAGE -->
+        <div id="report">
+        </div>
+        <ul style="font-size: 20px;">
+            <p>Suggestion</p>
+            <h1 style="font-size:20px ">Grain yield and grain straw ratio are-related to the duration and intensity of water deficit but the relations vary depending on the growth period during which the deficits occur. There is, however, some variation in variety as to the magnitude of the resulting yield decrease.
+                The relationships indicate that sensitivity to water deficit is somewhat higher in spring that in winter wheat, and this difference is thought to be the result of 'conditioning' of winter wheat which enables it to adjust its growth better in relation to water deficit.
+                For most varieties and particularly for the high producing varieties, early irrigation or heavy pre-and early season rain can produce good yields particularly when soils are deep and have a good water holding capacity and with an adequate amount of stored soil water, significant water deficits may occur only in the yield formation period (3). Only with irrigation or rain in the early growth periods (0 and 1a) plant and head number per m2 are considered higher compared to no rain or irrigation. In the latter situation the time to heading is also usually shortened.</h1>
+            <li id="s11"></li><br>
+            <li id="s12"></li><br>
+            <li id="s13"></li><br>
+
+
+        </ul>
+        <!-- ADD_PAGE -->
+
+            <script>
+
+                var i;
+                var lines ="";
+                var text = "{\"date_generated\": \"2038-01-19 03:14:07\",\n" +
+                        "\"location_lat\": \"-72\",\n" +
+                        "\"location_long\": \"34\",\n" +
+                        "\"report\": [\n" +
+                        "{\n" +
+                        "\"crop_name\": \"strawberry\",\n" +
+                        "\"growthsight_score\": \"91\",\n" +
+                        "\"ideal_humidity_avg\": \"60%\",\n" +
+                        "\"ideal_percipitation_avg\": \"10 inches\",\n" +
+                        "\"ideal_temperature\": \"80\",\n" +
+                        "\"location_humidity\": \"70%\",\n" +
+                        "\"location_percipitation\": \"15inches\",\n" +
+                        "\"location_temperature\": \"60\"\n" +
+                        "},\n" +
+                        "{\n" +
+                        "\"crop_name\": \"wheat\",\n" +
+                        "\"growthsight_score\": \"45\",\n" +
+                        "\"ideal_humidity_avg\": \"60%\",\n" +
+                        "\"ideal_percipitation_avg\": \"10 inches\",\n" +
+                        "\"ideal_temperature\": \"80\",\n" +
+                        "\"location_humidity\": \"70%\",\n" +
+                        "\"location_percipitation\": \"15inches\",\n" +
+                        "\"location_temperature\": \"60\"\n" +
+                        "},\n" +
+                        "{\n" +
+                        "\"crop_name\": \"chocolate\",\n" +
+                        "\"growthsight_score\": \"12\",\n" +
+                        "\"ideal_humidity_avg\": \"60%\",\n" +
+                        "\"ideal_percipitation_avg\": \"10 inches\",\n" +
+                        "\"ideal_temperature\": \"80\",\n" +
+                        "\"location_humidity\": \"70%\",\n" +
+                        "\"location_percipitation\": \"15inches\",\n" +
+                        "\"location_temperature\": \"60\"\n" +
+                        "},\n" +
+                        "{\n" +
+                        "\"crop_name\": \"milk\",\n" +
+                        "\"growthsight_score\": \"19\",\n" +
+                        "\"ideal_humidity_avg\": \"60%\",\n" +
+                        "\"ideal_percipitation_avg\": \"10 inches\",\n" +
+                        "\"ideal_temperature\": \"80\",\n" +
+                        "\"location_humidity\": \"70%\",\n" +
+                        "\"location_percipitation\": \"15inches\",\n" +
+                        "\"location_temperature\": \"60\"\n" +
+                        "},\n" +
+                        "{\n" +
+                        "\"crop_name\": \"banana\",\n" +
+                        "\"growthsight_score\": \"80\",\n" +
+                        "\"ideal_humidity_avg\": \"60%\",\n" +
+                        "\"ideal_percipitation_avg\": \"10 inches\",\n" +
+                        "\"ideal_temperature\": \"80\",\n" +
+                        "\"location_humidity\": \"70%\",\n" +
+                        "\"location_percipitation\": \"15inches\",\n" +
+                        "\"location_temperature\": \"60\"\n" +
+                        "}\n" +
+                        "]\n" +
+                        "}";
+                for(i=0;i<5;i++) {
+
+                    obj = JSON.parse(text);
+
+
+                    lines += "<table>"+"<thead>"+"<th>"+"Crops"+"</th>"+"<th>"+"Growthsight score"+"</th>"+"</thead>"+"<tbody>"+"<tr>" + "<td>" + obj.report[i].crop_name + "</td>"  + "<td>" + obj.report[i].growthsight_score+"</td>"+"</tr>"+"</tbody>"+"</table>"+
+                    "<table>"+"<thead>"+"<th>"+"Ideal condition"+"</th>"+"<th>"+"Location condition"+"</th>"+"</thead>"+"<tbody>"+"<tr>"+ "<td>" + "humidity avg:"+obj.report[i].ideal_humidity_avg+"</td>"+"<td>"+ "humidity avg:"+obj.report[i].location_humidity+"</td>"+"</tr>"+
+                            "<tr>"+ "<td>" +  "percipitation avg:"+obj.report[i].ideal_percipitation_avg+"</td>"+"<td>"+ "percipitation avg:"+obj.report[i].location_percipitation+"</td>"+"</tr>"+
+                            "<tr>"+ "<td>" +  "temperature avg:"+obj.report[i].ideal_temperature+"</td>"+"<td>"+ "temperature avg:"+obj.report[i].location_temperature+"</td>"+"</tr>"+"</tbody>"+"</table>"+"   <!-- ADD_PAGE -->";
+
+                }
+                    document.getElementById("report").innerHTML = lines;
+                if(obj.report[1].ideal_humidity_avg<obj.report[1].location_humidity)
+                {document.getElementById("s11").innerHTML = "Depth and density of rooting are affected by water, nutrients and oxygen in the soil."}
+                if(obj.report[1].ideal_percipitation_avg<obj.report[1].location_percipitation)
+                {document.getElementById("s12").innerHTML = "0.8 to 1 m. For short periods the crop can withstand without visible harm a minimum depth of 0.25 m."}
+                if(obj.report[1].ideal_humidity_avg<obj.report[1].location_humidity)
+                {document.getElementById("s13").innerHTML = " pre-irrigation or sufficient rain to wet the upper soil layer, seeds are drilled 2 to 4 cm deep. as against 5 to 8 cm in dry soils."}
+//                             }
+
+
+                obj = JSON.parse(text);
+                document.getElementById("location").innerHTML = "latitude:"+obj.location_lat+""+"longitude:"+obj.location_long;
+                document.getElementById("date").innerHTML = obj.date_generated;
+
+            </script>
+            <!--<tr>-->
+                <!--<td>cell</td>-->
+                <!--<td>cell</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cell</td>-->
+                <!--<td>cell</td>-->
+            <!--</tr>-->
+
+        <div id="chart_div"></div>
+        <ul style="text-align: center">
+            <li>list 1</li>
+            <li>list 2</li>
+            <li>list 3</li>
+
+
+        </ul>
+
+    </center>>
+</div>
+<a href="javascript:pdfToHTML()" style="font-size: 30px;">Download</a>
+
+
+
+
+</body>
+</html>
