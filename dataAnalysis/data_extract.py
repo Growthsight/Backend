@@ -369,6 +369,8 @@ for i in range(0,6):
 	arrayofcrops[i]["GrowthSight_Score"] = score[i]
 
 final_jason = []
-final_jason.append({"state": sys.argv[3],"location_lat": sys.argv[1],"location_long": sys.argv[2],"report": arrayofcrops})
+final_jason.append({"state":sys.argv[3],"location_lat":sys.argv[1],"location_long":sys.argv[2],"report":arrayofcrops})
 x = json.dumps(final_jason)
+x = x[1:-1]
+x="".join(x.split())
 print x
