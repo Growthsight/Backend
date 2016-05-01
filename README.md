@@ -19,6 +19,7 @@ Linux
 ##Executing 
 Open a terminal. Navigate to the root directory
 `cd node/node_modules/express/
+
 node app.js`
 
 now open a web browser and go to localhost:8081
