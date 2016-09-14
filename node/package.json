@@ -1,0 +1,22 @@
+{
+  "name": "growthsight",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Growthsight/Frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Growthsight/Frontend/issues"
+  },
+  "homepage": "https://github.com/Growthsight/Frontend#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}

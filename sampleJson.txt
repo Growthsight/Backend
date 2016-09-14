@@ -1,0 +1,14 @@
+
+{
+"date_generated":"2038-01-19 03:14:07",
+"location_lat":"-72",
+"location_long":"34",
+"report":[
+		
+			{"crop_name":"strawberry", "growthsight_score":"91", "ideal_humidity_avg": "60%", "ideal_percipitation_avg": "10 inches", "ideal_temperature":"80", "location_humidity":"70%", "location_percipitation":"15inches", "location_temperature":"60"},
+
+			{"crop_name":"wheat", "growthsight_score":"45", "ideal_humidity_avg": "60%", "ideal_percipitation_avg": "10 inches", "ideal_temperature":"80", "location_humidity":"70%", "location_percipitation":"15inches", "location_temperature":"60"},
+			{"crop_name":"chocolate", "growthsight_score":"12", "ideal_humidity_avg": "60%", "ideal_percipitation_avg": "10 inches", "ideal_temperature":"80", "location_humidity":"70%", "location_percipitation":"15inches", "location_temperature":"60"},
+			{"crop_name":"milk", "growthsight_score":"19", "ideal_humidity_avg": "60%", "ideal_percipitation_avg": "10 inches", "ideal_temperature":"80", "location_humidity":"70%", "location_percipitation":"15inches", "location_temperature":"60"},
+			{"crop_name":"banana", "growthsight_score":"80", "ideal_humidity_avg": "60%", "ideal_percipitation_avg": "10 inches", "ideal_temperature":"80", "location_humidity":"70%", "location_percipitation":"15inches", "location_temperature":"60"}
+]}
